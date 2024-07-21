@@ -4,9 +4,9 @@ services:
     image: vaultwarden/server:alpine
     restart: unless-stopped
     volumes:
-      - vaultwarden:/data
+      - ./vaultwarden:/data
     ports:
-      - "8080:8080"
+      - "8080:8080/tcp"
     depends_on:
       postgres:
         condition: service_healthy
@@ -18,8 +18,7 @@ services:
       - PUSH_INSTALLATION_KEY=${PUSH_INSTALLATION_KEY}
       - DOMAIN=${DOMAIN}
       - ROCKET_PORT=8080
-      - DATABASE_URL=postgresql://vaultwarden:${POSTGRES_PASSWORD}@postgres:5432/vaultwarden    
-    user: nobody   
+      - DATABASE_URL=postgresql://vaultwarden:${POSTGRES_PASSWORD}@postgres:5432/vaultwarden
     read_only: true
     security_opt:  
       - "no-new-privileges=true"
@@ -31,7 +30,7 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped  
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - ./postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=vaultwarden
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
