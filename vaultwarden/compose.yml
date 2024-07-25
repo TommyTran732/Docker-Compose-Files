@@ -10,8 +10,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    environment:          
-      - SIGNUPS_ALLOWED=false                                    
+    environment:
+      - SIGNUPS_ALLOWED=false
       - ADMIN_TOKEN=${ADMIN_TOKEN}
       - PUSH_ENABLED=true
       - PUSH_INSTALLATION_ID=${PUSH_INSTALLATION_ID}
@@ -21,15 +21,15 @@ services:
       - DATABASE_URL=postgresql://vaultwarden:${POSTGRES_PASSWORD}@postgres:5432/vaultwarden
     user: "3001:3001"
     read_only: true
-    security_opt:  
+    security_opt:
       - "no-new-privileges=true"
     cap_drop:
-      - ALL  
-      
+      - ALL
+
   postgres:
-    container_name: postgres 
+    container_name: postgres
     image: ghcr.io/blue-oci/postgres:16
-    restart: unless-stopped  
+    restart: unless-stopped
     volumes:
       - ./postgres:/var/lib/postgresql/data
     environment:
@@ -38,14 +38,14 @@ services:
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "vaultwarden"]
       interval: 15s
-      timeout: 5s  
-    user: "70:70"  
+      timeout: 5s
+    user: "70:70"
     read_only: true
     tmpfs:
       - /var/run/postgresql:size=50M,mode=0770,uid=70,gid=70,noexec,nosuid,nodev
     security_opt:
       - "no-new-privileges=true"
-      
+
 volumes:
   vaultwarden:
   postgres:
