@@ -6,7 +6,7 @@ services:
     volumes:
       - ./uptime-kuma:/app/data:Z
     ports:
-      - "127.0.0.1:3001:3001/tcp"
+      - "3001:3001/tcp"
     security_opt:
       - "no-new-privileges=true"
     cap_drop:
