@@ -75,10 +75,13 @@ services:
     restart: unless-stopped
     volumes:
       - ./nextcloud:/var/www/html:z
-    entrypoint: /cron.sh
+    networks:
+      - mariadb
+      - redis
     depends_on:
       - mariadb
       - redis
+    entrypoint: /cron.sh
     security_opt:
       - "no-new-privileges=true"
 
