@@ -18,7 +18,7 @@ services:
       - PUSH_INSTALLATION_KEY=${PUSH_INSTALLATION_KEY}
       - DOMAIN=${DOMAIN}
       - ROCKET_PORT=8080
-      - DATABASE_URL=postgresql://vaultwarden:${POSTGRES_PASSWORD}@postgres:5432/vaultwarden
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_USER}
     user: "3001:3001"
     read_only: true
     security_opt:
@@ -33,7 +33,7 @@ services:
     volumes:
       - ./postgres:/var/lib/postgresql/data:Z
     environment:
-      - POSTGRES_USER=vaultwarden
+      - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "vaultwarden"]
