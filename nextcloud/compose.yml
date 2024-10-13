@@ -56,6 +56,13 @@ services:
       - MYSQL_USER=${MARIADB_USER}
       - MYSQL_PASSWORD=${MARIADB_PASSWORD}
       - REDIS_HOST=redis
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_SECURE=${SMTP_SECURE}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_NAME=${SMTP_NAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
+      - MAIL_DOMAIN=${MAIL_DOMAIN}
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
       - NC_default_phone_region=${NC_default_phone_region}
     security_opt:
