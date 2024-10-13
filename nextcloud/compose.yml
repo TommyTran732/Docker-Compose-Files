@@ -1,0 +1,99 @@
+services:
+  mariadb:
+    container_name: mariadb
+    restart: unless-stopped
+    image: ghcr.io/polarix-containers/mariadb:10.11-alpine
+    volumes:
+      - "./mariadb:/var/lib/mysql:Z"
+    networks:
+      - mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+    user: "3003:3003"
+    read_only: true
+    tmpfs:
+      - /var/tmp
+      - /run/mariadb:size=50M,mode=0770,uid=3003,gid=3003,noexec,nosuid,nodev
+    security_opt:
+      - "no-new-privileges=true"
+    cap_drop:
+      - ALL
+
+  redis:
+    container_name: redis
+    image: ghcr.io/polarix-containers/redis:7
+    restart: unless-stopped
+    volumes:
+      - ./redis:/data:Z
+    networks:
+      - redis
+    user: "991:1000"
+    read_only: true
+    security_opt:
+      - "no-new-privileges=true"
+    cap_drop:
+      - ALL
+
+  nextcloud:
+    container_name: nextcloud
+    image: nextcloud:29-fpm-alpine
+    restart: unless-stopped
+    volumes:
+      - ./nextcloud:/var/www/html:z
+    networks:
+      - mariadb
+      - redis
+      - nginx
+    depends_on:
+      - mariadb
+      - redis
+    environment:
+      - MYSQL_HOST=mariadb
+      - MYSQL_DATABASE=${MARIADB_DATABASE}
+      - MYSQL_USER=${MARIADB_USER}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
+      - REDIS_HOST=redis
+      - TRUSTED_PROXIES=${TRUSTED_PROXIES}
+      - NC_default_phone_region=${NC_default_phone_region}
+
+  cron:
+    container_name: cron
+    image: nextcloud:fpm-alpine
+    restart: unless-stopped
+    volumes:
+      - nextcloud:/var/www/html:z
+    entrypoint: /cron.sh
+    depends_on:
+      - mariadb
+      - redis
+
+  nginx:
+    container_name: nginx
+    restart: unless-stopped
+    image: ghcr.io/polarix-containers/nginx:unprivileged-slim
+    ports:
+      - 8080:8080/tcp
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:Z,ro
+      - ./nextcloud:/var/www/html:z
+    networks:
+      - nginx
+    depends_on:
+      - nextcloud
+    user: "101:101"
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /tmp
+    security_opt:
+      - "no-new-privileges=true"
+    cap_drop:
+      - ALL
+
+networks:
+  mariadb:
+  redis:
+  nginx:
