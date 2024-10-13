@@ -58,6 +58,8 @@ services:
       - REDIS_HOST=redis
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
       - NC_default_phone_region=${NC_default_phone_region}
+    security_opt:
+      - "no-new-privileges=true"
 
   cron:
     container_name: cron
@@ -69,6 +71,8 @@ services:
     depends_on:
       - mariadb
       - redis
+    security_opt:
+      - "no-new-privileges=true"
 
   nginx:
     container_name: nginx
