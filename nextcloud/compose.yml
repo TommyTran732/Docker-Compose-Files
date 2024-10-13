@@ -64,13 +64,14 @@ services:
       - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
       - MAIL_DOMAIN=${MAIL_DOMAIN}
       - TRUSTED_PROXIES=${TRUSTED_PROXIES}
+      - NC_maintenance_window_start=${NC_maintenance_window_start}
       - NC_default_phone_region=${NC_default_phone_region}
     security_opt:
       - "no-new-privileges=true"
 
   cron:
     container_name: cron
-    image: nextcloud:fpm-alpine
+    image: nextcloud:29-fpm-alpine
     restart: unless-stopped
     volumes:
       - ./nextcloud:/var/www/html:z
