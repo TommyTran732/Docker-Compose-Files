@@ -66,7 +66,7 @@ services:
     image: nextcloud:fpm-alpine
     restart: unless-stopped
     volumes:
-      - nextcloud:/var/www/html:z
+      - ./nextcloud:/var/www/html:z
     entrypoint: /cron.sh
     depends_on:
       - mariadb
