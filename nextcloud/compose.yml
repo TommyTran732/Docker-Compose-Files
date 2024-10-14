@@ -39,7 +39,7 @@ services:
 
   nextcloud:
     container_name: nextcloud
-    image: nextcloud:29-fpm-alpine
+    image: ghcr.io/polarix-containers/nextcloud:29
     restart: unless-stopped
     volumes:
       - ./nextcloud:/var/www/html:z
@@ -71,7 +71,7 @@ services:
 
   cron:
     container_name: cron
-    image: nextcloud:29-fpm-alpine
+    image: ghcr.io/polarix-containers/nextcloud:29
     restart: unless-stopped
     volumes:
       - ./nextcloud:/var/www/html:z
