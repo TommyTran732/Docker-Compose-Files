@@ -68,6 +68,11 @@ services:
       - NC_default_phone_region=${NC_default_phone_region}
     security_opt:
       - "no-new-privileges=true"
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
 
   cron:
     container_name: cron
@@ -82,6 +87,11 @@ services:
     entrypoint: /cron.sh
     security_opt:
       - "no-new-privileges=true"
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
 
   nginx:
     container_name: nginx
