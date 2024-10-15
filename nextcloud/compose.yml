@@ -76,7 +76,7 @@ services:
 
   cron:
     container_name: cron
-    image: ghcr.io/polarix-containers/nextcloud:29
+    image: ghcr.io/polarix-containers/nextcloud:stable
     restart: unless-stopped
     volumes:
       - ./nextcloud:/var/www/html:z
