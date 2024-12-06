@@ -22,15 +22,15 @@ services:
     cap_drop:
       - ALL
 
-  redis:
-    container_name: redis
-    image: ghcr.io/polarix-containers/redis:7
+  valkey:
+    container_name: valkey
+    image: ghcr.io/polarix-containers/valkey:8
     restart: unless-stopped
     volumes:
-      - ./redis:/data:Z
+      - ./valkey:/data:Z
     networks:
-      - redis
-    user: "3008:3008"
+      - valkey
+    user: "3009:3009"
     read_only: true
     security_opt:
       - "no-new-privileges=true"
@@ -45,17 +45,17 @@ services:
       - ./nextcloud:/var/www/html:z
     networks:
       - mariadb
-      - redis
+      - valkey
       - nginx
     depends_on:
       - mariadb
-      - redis
+      - valkey
     environment:
       - MYSQL_HOST=mariadb
       - MYSQL_DATABASE=${MARIADB_DATABASE}
       - MYSQL_USER=${MARIADB_USER}
       - MYSQL_PASSWORD=${MARIADB_PASSWORD}
-      - REDIS_HOST=redis
+      - REDIS_HOST=valkey
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_SECURE=${SMTP_SECURE}
       - SMTP_PORT=${SMTP_PORT}
@@ -85,8 +85,10 @@ services:
       - ./nextcloud:/var/www/html:z
     networks:
       - mariadb
+      - valkey
     depends_on:
       - mariadb
+      - valkey
     entrypoint: /cron.sh
     security_opt:
       - "no-new-privileges=true"
@@ -121,5 +123,5 @@ services:
 
 networks:
   mariadb:
-  redis:
+  valkey:
   nginx:
