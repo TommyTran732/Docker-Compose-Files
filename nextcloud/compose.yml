@@ -30,7 +30,7 @@ services:
       - ./redis:/data:Z
     networks:
       - redis
-    user: "991:1000"
+    user: "3008:3008"
     read_only: true
     security_opt:
       - "no-new-privileges=true"
