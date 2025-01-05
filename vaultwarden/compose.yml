@@ -19,7 +19,7 @@ services:
       - DOMAIN=${DOMAIN}
       - ROCKET_PORT=8080
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_USER}
-    user: "3001:3001"
+    user: "200003:200003"
     read_only: true
     security_opt:
       - "no-new-privileges=true"
@@ -39,9 +39,9 @@ services:
       test: ["CMD", "pg_isready", "-U", "vaultwarden"]
       interval: 15s
       timeout: 5s
-    user: "70:70"
+    user: "200012:200012"
     read_only: true
     tmpfs:
-      - /var/run/postgresql:size=50M,mode=0770,uid=70,gid=70,noexec,nosuid,nodev
+      - /var/run/postgresql:size=50M,mode=0770,uid=200012,gid=200012,noexec,nosuid,nodev
     security_opt:
       - "no-new-privileges=true"
