@@ -12,11 +12,11 @@ services:
       - MARIADB_DATABASE=${MARIADB_DATABASE}
       - MARIADB_USER=${MARIADB_USER}
       - MARIADB_PASSWORD=${MARIADB_PASSWORD}
-    user: "3003:3003"
+    user: "200011:200011"
     read_only: true
     tmpfs:
-      - /var/tmp:mode=0770,uid=3003,gid=3003,noexec,nosuid,nodev
-      - /run/mariadb:size=50M,mode=0770,uid=3003,gid=3003,noexec,nosuid,nodev
+      - /var/tmp:mode=0770,uid=200011,gid=200011,noexec,nosuid,nodev
+      - /run/mariadb:size=50M,mode=0770,uid=200011,gid=200011,noexec,nosuid,nodev
     security_opt:
       - "no-new-privileges=true"
     cap_drop:
@@ -30,7 +30,7 @@ services:
       - ./valkey:/data:Z
     networks:
       - valkey
-    user: "3009:3009"
+    user: "200010:200010"
     read_only: true
     security_opt:
       - "no-new-privileges=true"
